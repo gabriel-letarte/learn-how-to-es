@@ -8,7 +8,7 @@ This field will be queried with partial words.
 
 #### analyzer.edge_ngram
 
-This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries. See _(see search_analyzer.md)_ for more details about ngram filter vs tokenizer.  Example with the word `coffee`:
+This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries. For more details about [ngram filter vs tokenizer](search_analyzer.md). Example with the word `coffee`:
 
 ```
 c
