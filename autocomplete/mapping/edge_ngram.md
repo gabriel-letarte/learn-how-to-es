@@ -8,7 +8,9 @@ This field will be queried with partial words.
 
 #### analyzer.edge_ngram
 
-This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries. For more details about [ngram filter vs tokenizer](/autocomplete/mapping/search_analyzer.md). Example with the word `coffee`:
+This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries.
+
+Example with the word `coffee`:
 
 ```
 c
@@ -19,6 +21,8 @@ coffe
 coffee
 ```
 
+_See this for more details about [ngram filter vs tokenizer](/autocomplete/mapping/edge_ngram_filter_vs_tokenizer.md)._
+
 #### search.search
 
 This analyzer will be applied to the search queries. We wouldn't want to apply ngram on the terms, else we'll end up matching a whole lot of junk. E.g, `cold` would yield:
@@ -28,6 +32,8 @@ col
 cold
 
 and would suggest coffee because of the first gram (`co`).
+
+_See this for more details about [the need for a search_analyzer](/autocomplete/mapping/search_analyzer.md)._
 
 #### min 1
 
