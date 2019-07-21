@@ -8,9 +8,10 @@ This field will be queried with partial words.
 
 #### analyzer.edge_ngram
 
-This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries. See _(see Footnote #1)_ for more details about ngram filter vs tokenizer.  Example with the word `coffee`:
+This analyzer will ngram the words starting at the edge to dispose text in a way that makes it efficient to perform prefix queries. See _(see search_analyzer.md)_ for more details about ngram filter vs tokenizer.  Example with the word `coffee`:
 
 ```
+c
 co
 cof
 coff
@@ -28,9 +29,11 @@ cold
 
 and would suggest coffee because of the first gram (`co`).
 
-#### min 2
+#### min 1
 
-This will be the minimum number of characters we'll need to type before we can start returning results. Choosing 1 is usefull for a small number of potential results but quickly becomes irrelevant for very large quantities of results.
+This will be the minimum number of characters we'll need to type before we can start returning results.
+
+Starting with 1 is usefull for a small number of potential results but quickly becomes irrelevant for very large quantities of results. I still suggest going with 1 for a better and more consistent user experience no matter how many number of potential results because seeing results reinforces that _there is_ results starting with that first character.
 
 #### max 20
 
