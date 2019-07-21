@@ -13,7 +13,7 @@ PUT coffee/_settings
       
       "my_edge_ngram": {
         "type": "edge_ngram",
-        "min_gram": 2,
+        "min_gram": 1,
         "max_gram": 20
       }
 
@@ -107,6 +107,7 @@ Although it's not properly documented, here's how Elasticsearch would perform bo
 
 The given term will be transformed in the following tokens:
 ```
+p
 pe
 per
 peru
@@ -122,7 +123,7 @@ POST coffee/_search
 {
   "query": {
     "terms": {
-      "name.bad_config": ["pe", "per", "peru", "peru ", "peru s", "peru sm"]
+      "name.bad_config": ["p", "pe", "per", "peru", "peru ", "peru s", "peru sm"]
     }
   }
 }
@@ -130,6 +131,7 @@ POST coffee/_search
 
 Inverted index:
 ```
+p        -> doc4, doc5  <= `p` hits doc 4 & 5
 pe       -> doc4, doc5  <= `pe` hits doc 4 & 5
 per      -> doc4, doc5  <= `per` hits doc 4 & 5
 peru     -> doc4, doc5  <= `peru` hits doc 4 & 5
@@ -150,7 +152,7 @@ POST coffee/_search
       "must": [
         {
           "terms": {
-            "name.edge_ngram": ["pe", "per", "peru"]
+            "name.edge_ngram": ["p", "pe", "per", "peru"]
           }
         },
         {
@@ -166,6 +168,7 @@ POST coffee/_search
 
 Inverted index:
 ```
+p        -> doc4, doc5  <= `p` hits doc 4 & 5
 pe       -> doc4, doc5  <= `pe` hits doc 4 & 5
 per      -> doc4, doc5  <= `per` hits doc 4 & 5
 peru     -> doc4, doc5  <= `peru` hits doc 4 & 5
@@ -177,6 +180,7 @@ First clause returns `doc4, doc5` and second clause returns `doc5`. The intersec
 
 This becomes a problem when you query, for example: `permit`. Where you would match both "Peru" and "Peru Small Batch" because:
 ```
+p        -> doc4, doc5  <= `p` hits doc 4 & 5
 pe       -> doc4, doc5  <= `pe` hits doc 4 & 5
 per      -> doc4, doc5  <= `per` hits doc 4 & 5
 ```
@@ -223,12 +227,12 @@ POST coffee/_search
       "must": [
         {
           "terms": {
-            "name.edge_ngram": ["pe"]
+            "name.edge_ngram": ["p"]
           }
         },
         {
           "terms": {
-            "name.edge_ngram": ["per"]
+            "name.edge_ngram": ["pe"]
           }
         },
         ...
@@ -240,6 +244,7 @@ POST coffee/_search
 
 Inverted index:
 ```
+p        -> doc4, doc5  <= `p` hits doc 4 & 5
 pe       -> doc4, doc5  <= `pe` hits doc 4 & 5
 per      -> doc4, doc5  <= `per` hits doc 4 & 5
 peru     -> doc4, doc5  <= `peru` hits doc 4 & 5
@@ -250,6 +255,7 @@ peru sm  -> doc5        <= `peru sm` hits doc 5
 
 Intersect
 ```
+p: (4, 5)
 pe: (4, 5)
 per: (4, 5)
 peru: (4, 5)
@@ -271,4 +277,4 @@ E.g,
 Tokenized into
 `peru` AND `sm`
 Token filters
-(`pe` or `per` or `peru`) AND (`sm`)
+(`p` or `pe` or `per` or `peru`) AND (`s`, `sm`)

@@ -16,6 +16,7 @@ PUT coffee/_settings
         "tokenizer": "keyword",
         "filter": [
           "lowercase",
+          "asciifolding",
           "edge_ngram_filter"
         ]
       },
@@ -23,7 +24,8 @@ PUT coffee/_settings
       "search_single_token": {
         "tokenizer": "keyword",
         "filter": [
-          "lowercase"
+          "lowercase",
+          "asciifolding"
         ]
       }
       
@@ -45,7 +47,7 @@ PUT coffee/_mapping/_doc
           "type": "text",
           "analyzer": "edge_ngram_single_token",
           "search_analyzer": "search_single_token"
-        },
+        }
 
       }
     }
@@ -78,6 +80,7 @@ POST coffee/_analyze
 ```
 
 ```
+p
 pe
 per
 peru

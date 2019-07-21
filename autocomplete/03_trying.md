@@ -37,6 +37,7 @@ POST coffee/_search
 It works as expected. `Peru` was analyzed and saved as:
 
 ```
+p
 pe
 per <- This one was our hit
 peru
@@ -103,14 +104,17 @@ POST coffee/_search
 That one is more questionnable but makes a lot of sense technically, here's why. We've sent 2 tokens to Elasticsearch, `sm` and `ba`.
 
 ```
+p
 pe
 per
 peru
 
+s
 sm <- hit
 sma
 small
 
+b
 ba <- hit
 bat
 batc
