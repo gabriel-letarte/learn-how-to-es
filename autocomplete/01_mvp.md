@@ -97,4 +97,7 @@ PUT coffee
 }
 ```
 
-A few things about this, see "/mapping"
+A few things about this:
+- About using [fields](/mapping/fields.md)
+- Details about our [edge_ngram settings](/mapping/edge_ngram.md)
+- Always use a [single master shard](/mapping/number_of_shards.md) in dev
