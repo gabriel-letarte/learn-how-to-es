@@ -1,0 +1,103 @@
+PUT coffee
+{
+  "settings": {
+    "number_of_shards": 1,
+    "analysis": {
+
+      "filter": {
+        "edge_ngram_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20
+        }
+      },
+
+      "analyzer": {
+        "edge_ngram": {
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "edge_ngram_filter"
+          ],
+          "tokenizer": "standard"
+        },
+        "search": {
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ],
+          "tokenizer": "standard"
+        },
+        "edge_ngram_single_token": {
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "edge_ngram_filter"
+          ],
+          "tokenizer": "keyword"
+        },
+        "search_single_token": {
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ],
+          "tokenizer": "keyword"
+        },
+        "edge_ngram_tokenizer": {
+          "filter": [
+            "lowercase"
+          ],
+          "tokenizer": "my_edge_ngram"
+        }
+      },
+
+      "tokenizer": {
+        "my_edge_ngram": {
+          "type": "edge_ngram",
+          "min_gram": "1",
+          "max_gram": "20"
+        }
+      }
+      
+    }
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        
+        "name": {
+          "type": "text",
+
+          "fields": {
+            "edge_ngram": {
+              "type": "text",
+              "analyzer": "edge_ngram",
+              "search_analyzer": "search"
+            },
+            "edge_ngram_single_token": {
+              "type": "text",
+              "analyzer": "edge_ngram_single_token",
+              "search_analyzer": "search_single_token"
+            },
+
+            "bad_config": {
+              "type": "text",
+              "analyzer": "edge_ngram"
+            },
+            "bad_config_single_token": {
+              "type": "text",
+              "analyzer": "edge_ngram_single_token"
+            },
+            "bad_config_edge_ngram_tokenizer": {
+              "type": "text",
+              "analyzer": "edge_ngram_tokenizer"
+            }
+
+          }
+
+        }
+
+      }
+    }
+  }
+}
